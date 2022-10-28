@@ -2,7 +2,11 @@ package com.practice.expensemanager.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +23,12 @@ public class UserController {
     public UserService userService;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> result = userService.getUsers();
+        if(result.size() > 0){
+            return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
@@ -29,7 +37,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public User postUser(@RequestBody User user) {
+    public User postUser(@Valid @RequestBody User user) {
         if (userService.postUser(user)) {
             return user;
         }

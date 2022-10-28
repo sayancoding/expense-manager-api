@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class User {
@@ -12,8 +14,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotEmpty(message = "fullname is required")
+    @Min(value = 2)
     private String name;
+
+    @NotEmpty(message = "username is required")
     private String username;
+
+    @NotEmpty(message = "password is required")
     private String password;
     
     public int getId() {

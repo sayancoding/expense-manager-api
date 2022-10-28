@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,17 +22,26 @@ public class Expenditure {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @DateTimeFormat(pattern = "YYYY-MM-DD")
-    @JsonFormat(pattern = "YYYY-MM-DD")
+    @DateTimeFormat(pattern = "MM/dd/yyyy" , iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private Date date;
 
+    @NotEmpty(message = "remarks is required")
     private String remarks;
+
+    @NotNull(message = "type should be select")
     private String type;
+
+    @NotNull(message = "method should be select")
     private String method;
+
+    @NotNull(message = "amount is required")
+    @Min(value = 1, message = "amount should be valid")
     private long amount;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
+    @NotNull(message = "user id is required")
     private User user;
 
     public long getId() {

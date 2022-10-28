@@ -2,6 +2,8 @@ package com.practice.expensemanager.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +31,7 @@ public class ExpenditureController {
     }
 
     @RequestMapping(value = "/exp", method = RequestMethod.POST)
-    public Expenditure postExpenditure(@RequestBody Expenditure exp) {
+    public Expenditure postExpenditure(@Valid @RequestBody Expenditure exp) {
         if (expenditureService.postExpenditure(exp)) {
             return exp;
         }
