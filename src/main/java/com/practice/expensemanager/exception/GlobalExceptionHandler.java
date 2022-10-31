@@ -1,5 +1,6 @@
 package com.practice.expensemanager.exception;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,6 +24,11 @@ public class GlobalExceptionHandler {
             map.put(errField, errMsg);
         });
         return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDetails> resourceNotFoundException(ResourceNotFoundException excep, WebRequest req){
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), HttpStatus.NOT_FOUND.value(),excep.getMessage(),req.getDescription(false));
+        return  new ResponseEntity<>(errorDetails,HttpStatus.NOT_FOUND);
     }
     
 }

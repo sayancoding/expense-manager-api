@@ -32,7 +32,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public User getOneUser(@PathVariable int id) {
+    public User getOneUser(@PathVariable int id) throws Throwable {
+
         return userService.getOneUser(id);
     }
 
@@ -41,6 +42,6 @@ public class UserController {
         if (userService.postUser(user)) {
             return user;
         }
-        return user;
+        return null;
     }
 }

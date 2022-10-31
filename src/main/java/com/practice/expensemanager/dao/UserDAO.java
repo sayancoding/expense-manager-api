@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.practice.expensemanager.entity.User;
 
+import java.util.Optional;
+
 @Repository
 public interface UserDAO extends CrudRepository<User,Integer> {
-    public User findById(int id);
+    public Optional findById(int id);
 }

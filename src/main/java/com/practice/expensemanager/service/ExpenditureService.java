@@ -2,6 +2,7 @@ package com.practice.expensemanager.service;
 
 import java.util.List;
 
+import com.practice.expensemanager.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ public class ExpenditureService {
         return (List<Expenditure>) expenditureDAO.findAll();
     }
 
-    public Expenditure getOneExpenditure(int id){
-        return (Expenditure) expenditureDAO.findById(id);
+    public Expenditure getOneExpenditure(long id) throws Throwable {
+        return (Expenditure) expenditureDAO.findById(id).orElseThrow(()-> new ResourceNotFoundException("Not record found at Id:"+id));
     }
 
     public Boolean postExpenditure(Expenditure exp){

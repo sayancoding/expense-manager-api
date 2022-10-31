@@ -1,6 +1,8 @@
 package com.practice.expensemanager.service;
 
+import com.practice.expensemanager.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.practice.expensemanager.dao.UserDAO;
@@ -18,8 +20,8 @@ public class UserService {
         return (List<User>) userDAO.findAll();
     }
 
-    public User getOneUser(int id) {
-        return (User) userDAO.findById(id);
+    public User getOneUser(int id) throws Throwable {
+        return (User) userDAO.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found at ID:"+id));
     }
 
     public Boolean postUser(User user) {
