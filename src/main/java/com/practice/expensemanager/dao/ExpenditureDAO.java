@@ -10,6 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface ExpenditureDAO extends CrudRepository<Expenditure,Long>{
-//    @Query("SELECT u FROM Expenditure u WHERE u.id = ?1 ")
     public Optional findById(long id);
 }

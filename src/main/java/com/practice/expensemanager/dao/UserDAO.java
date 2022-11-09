@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserDAO extends CrudRepository<User,Integer> {
-    public Optional findById(int id);
+    public Optional<?> findById(int id);
+    public Optional<?> findByUsername(String username);
 }
