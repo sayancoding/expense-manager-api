@@ -23,6 +23,9 @@ public class UserService {
     public User getOneUser(int id) throws Throwable {
         return (User) userDAO.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found at ID:"+id));
     }
+    public User getByUsername(String username) throws Throwable {
+        return (User) userDAO.findByUsername(username).orElseThrow(()-> new ResourceNotFoundException("User not found at"));
+    }
 
     public Boolean postUser(User user) {
         if (userDAO.save(user) != null) {

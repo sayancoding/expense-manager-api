@@ -21,7 +21,6 @@ public class User implements UserDetails {
     private int id;
 
     @NotEmpty(message = "fullname is required")
-    @Min(value = 2)
     private String name;
 
     @NotEmpty(message = "username is required")
