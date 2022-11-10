@@ -1,9 +1,11 @@
 package com.practice.expensemanager.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.practice.expensemanager.payload.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ public class ExpenditureController {
     @RequestMapping(value = "/exp", method = RequestMethod.GET)
     public ResponseEntity<List<Expenditure>> getExpenditures() {
         List<Expenditure> expenditures = expenditureService.getExpenditures();
+        expenditures = expenditures.stream().filter((exp) -> exp.getUser().getId() == CommonUtil._uid).collect(Collectors.toList());
         if(expenditures.size() > 0){
             return new ResponseEntity<>(expenditures, HttpStatus.OK);
         }
@@ -33,7 +36,11 @@ public class ExpenditureController {
 
     @RequestMapping(value = "/exp/{id}", method = RequestMethod.GET)
     public Expenditure getOneExpenditure(@PathVariable long id) throws Throwable {
-        return  (Expenditure)expenditureService.getOneExpenditure(id);
+        Expenditure exp = (Expenditure)expenditureService.getOneExpenditure(id);
+        if(exp.getId() == CommonUtil._uid){
+            return exp;
+        }
+        return null ;
     }
 
     @RequestMapping(value = "/exp", method = RequestMethod.POST)

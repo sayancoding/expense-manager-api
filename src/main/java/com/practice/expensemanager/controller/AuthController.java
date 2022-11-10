@@ -1,8 +1,10 @@
 package com.practice.expensemanager.controller;
 
 import com.practice.expensemanager.entity.User;
+import com.practice.expensemanager.payload.CommonUtil;
 import com.practice.expensemanager.payload.JwtAuthRequest;
 import com.practice.expensemanager.payload.JwtAuthResponse;
+import com.practice.expensemanager.payload.ResponseMessage;
 import com.practice.expensemanager.security.JwtTokenHelper;
 import com.practice.expensemanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -47,7 +46,14 @@ public class AuthController {
         response.setName(user.getName());
         response.setLoginAt(new Date());
 
+        CommonUtil.set(response.getUid(), response.getUsername(), response.getName(), true);
+        System.out.println(CommonUtil._uid);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("/logout")
+    public ResponseEntity<ResponseMessage> clearAuth(){
+        CommonUtil.reset();
+        return new ResponseEntity<>(new ResponseMessage("User logged out and isLogged status : "+CommonUtil._isLogged),HttpStatus.OK);
     }
 
     private void authenticate(String username, String password) {
